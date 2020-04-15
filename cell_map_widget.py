@@ -1,4 +1,4 @@
-from tkinter import Frame, Canvas, LEFT
+from tkinter import Frame, Canvas, TOP
 from cell_map import CellMap
 from typing import List
 
@@ -16,7 +16,7 @@ class CellMapWidget(Frame):
             width=(self.cells_count * cell_size),
             height=(self.cells_count * cell_size),
             bg='white')
-        self.canvas.pack(side=LEFT)
+        self.canvas.pack(side=TOP)
         self.canvas.bind('<Button-1>', self.on_click)
 
         self.draw()
@@ -72,9 +72,15 @@ class CellMapWidget(Frame):
             self.canvas.after(self.step_interval, self.simulate_loop)
 
 
-    def on_simulate(self):
+    def on_simulate(self, indicator):
         self.simulating = not self.simulating
         self.simulate_loop()
+
+        if indicator:
+            if self.simulating:
+                indicator.configure(bg='red')
+            else:
+                indicator.configure(bg='white')
 
 
     def on_randomize(self):
