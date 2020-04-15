@@ -1,7 +1,8 @@
 from typing import Dict, List
+from random import randint
 
 
-class CellMap():
+class CellMap:
 
     def __init__(self, cells_count: int = 10, rule: Dict[str, List[int]] = {'b': [3], 's': [2, 3]}):
         self.cells_count = 60
@@ -70,3 +71,11 @@ class CellMap():
                     new_map[x][y] = 0
 
         self.map = new_map
+
+
+    def clear(self):
+        self.map = [[0 for j in range(self.cells_count)] for i in range(self.cells_count)]
+
+
+    def randomize(self):
+        self.map = [[randint(0, 1) for j in range(self.cells_count)] for i in range(self.cells_count)]
