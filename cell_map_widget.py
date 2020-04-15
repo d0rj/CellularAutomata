@@ -1,5 +1,5 @@
 from tkinter import Frame, Canvas, LEFT
-from CellMap import CellMap
+from cell_map import CellMap
 from typing import List
 
 
