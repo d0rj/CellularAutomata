@@ -18,16 +18,27 @@ solve = None
 
 def read_point_neighbors(x: int, y: int):
     nb = [[0, 0]for i in range(8)]
-    i = 0
-    j = 0
     k = 0
 
     for i in range(x - 1, x + 2):
         for j in range(y - 1, y + 2):
             if i == x and j == y:
                 continue
-            nb[k][0] = i
-            nb[k][1] = j
+
+            if i < 0:
+                nb[k][0] = CELL_COUNT + i
+            elif i > CELL_COUNT - 1:
+                nb[k][0] = i - CELL_COUNT
+            else:
+                nb[k][0] = i
+
+            if j < 0:
+                nb[k][1] = CELL_COUNT + j
+            elif j > CELL_COUNT - 1:
+                nb[k][1] = j - CELL_COUNT
+            else:
+                nb[k][1] = j
+                
             k += 1
 
     return nb

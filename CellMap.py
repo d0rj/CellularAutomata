@@ -1,92 +1,72 @@
-from tkinter import *
+from typing import Dict, List
 
 
 class CellMap():
 
-    def __init__(self, master):
-        self.CELL_SIZE  = 10
-        self.CELL_COUNT = 60
-        self.card = [[0 for j in range(self.CELL_COUNT)] for i in range(self.CELL_COUNT)]
-        self.c = Canvas(master, width=(CELL_COUNT * CELL_SIZE), height=(CELL_COUNT * CELL_SIZE), bg='white')
+    def __init__(self, cells_count: int = 10, rule: Dict[str, List[int]] = {'b': [3], 's': [2, 3]}):
+        self.cells_count = 60
+        self.map = [[0 for j in range(self.cells_count)] for i in range(self.cells_count)]
+        self.rule = rule
 
 
-    def draw_grid(self):
-        for i in range(0, self.CELL_COUNT * self.CELL_SIZE, self.CELL_SIZE):
-            self.c.create_line(0, i, self.CELL_COUNT * self.CELL_SIZE, i)
-
-        for i in range(0, self.CELL_COUNT * self.CELL_SIZE, self.CELL_SIZE):
-            self.c.create_line(i, 0, i, self.CELL_COUNT * self.CELL_SIZE)
-
-
-    def draw_cell(self, x: int, y: int):
-        self.c.create_rectangle(self.CELL_SIZE * x, self.CELL_SIZE * y, \
-            self.CELL_SIZE * (x+1), self.CELL_SIZE * (y+1), fill='black')
-
-
-    def read_point_neighbors(self, x: int, y: int):
-        nb = [[0, 0]for i in range(8)]
-        i = 0
-        j = 0
-        k = 0
+    def get_point_neighbors(self, x: int, y: int) -> List[List[int]]:
+        neighbors = [[0, 0]for i in range(8)]
+        position = 0
 
         for i in range(x - 1, x + 2):
             for j in range(y - 1, y + 2):
                 if i == x and j == y:
                     continue
-                nb[k][0] = i
-                nb[k][1] = j
-                k += 1
 
-        return nb
+                if i < 0:
+                    neighbors[position][0] = self.cells_count + i
+                elif i > self.cells_count - 1:
+                    neighbors[position][0] = i - self.cells_count
+                else:
+                    neighbors[position][0] = i
+
+                if j < 0:
+                    neighbors[position][1] = self.cells_count + j
+                elif j > self.cells_count - 1:
+                    neighbors[position][1] = j - self.cells_count
+                else:
+                    neighbors[position][1] = j
+
+                position += 1
+
+        return neighbors
 
 
-    def neighbors_count(self, x: int, y: int):
-        sum = 0
-        nb = self.read_point_neighbors(x, y)
+    def neighbors_count(self, x: int, y: int) -> int:
+        count = 0
+        neighbors = self.get_point_neighbors(x, y)
 
         for i in range(8):
-            _x = nb[i][0]
-            _y = nb[i][1]
+            _x = neighbors[i][0]
+            _y = neighbors[i][1]
 
             if _x < 0 or _y < 0:
                 continue
-            if _x >= self.CELL_COUNT or _y >= self.CELL_COUNT:
+            if _x >= self.cells_count or _y >= self.cells_count:
                 continue
-            if self.card[_x][_y] == 1:
-                sum += 1
+            if self.map[_x][_y] == 1:
+                count += 1
 
-        return sum
-
-
-    def draw_map(self):
-        for i in range(self.CELL_COUNT):
-            for j in range(self.CELL_COUNT):
-                if self.card[i][j] == 1:
-                    self.draw_cell(i, j)
+        return count
 
 
     def step(self):
-        self.c.delete('all')
-        self.draw_grid()
+        new_map = [[0 for j in range(self.cells_count)] for i in range(self.cells_count)]
 
-        new_card = [[0 for j in range(self.CELL_COUNT)] for i in range(self.CELL_COUNT)]
-
-        for x in range(self.CELL_COUNT):
-            for y in range(self.):
+        for x in range(self.cells_count):
+            for y in range(self.cells_count):
                 count = self.neighbors_count(x, y)
-                if self.card[x][y] == 0 and count == 3:
-                    new_card[x][y] = 1
-                elif self.card[x][y] == 1 and (count < 2 or count > 3):
-                    new_card[x][y] = 0
-                elif self.card[x][y] == 1 and (count == 2 or count == 3):
-                    new_card[x][y] = 1
 
-        self.card = new_card
+                if self.map[x][y] == 0 and (count in self.rule['b']):
+                    new_map[x][y] = 1
+                elif self.map[x][y] == 1 and (count in self.rule['s']):
+                    new_map[x][y] = 1
+                else:
+                    new_map[x][y] = 0
 
-        self.draw_map()
-
-
-    def on_click(event):
-        x, y = event.x // 10, event.y // 10
-        self.card[x][y] = (self.card[x][y] + 1) % 2
-        self.draw_map()
+        self.map = new_map
