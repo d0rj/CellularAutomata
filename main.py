@@ -4,6 +4,7 @@ import time
 from cell_map import CellMap
 from cell_map_widget import CellMapWidget
 from map_configs.planner_gun import planner_gun
+from serialization import serialize_cellmap
 
 
 CELL_SIZE  = 10
@@ -13,6 +14,8 @@ rule = {'b': [3], 's': [2, 3]}
 
 
 def main():    
+    serialize_cellmap(planner_gun(CELL_COUNT), 'map_configs/planner.cfg')
+
     root = Tk()
     root.title('Celluar automat')
     root.geometry('600x700')
