@@ -4,7 +4,7 @@ import time
 from cell_map import CellMap
 from cell_map_widget import CellMapWidget
 from map_configs.planner_gun import planner_gun
-from serialization import serialize_cellmap
+from serialization import serialize_cellmap, deserialize_cellmap
 
 
 CELL_SIZE  = 10
@@ -13,9 +13,7 @@ STEP_INTERVAL = 100
 rule = {'b': [3], 's': [2, 3]}
 
 
-def main():    
-    serialize_cellmap(planner_gun(CELL_COUNT), 'map_configs/planner.cfg')
-
+def main():
     root = Tk()
     root.title('Celluar automat')
     root.geometry('600x700')
@@ -34,7 +32,7 @@ def main():
 
     main_menu = Menu()
     config_menu = Menu()
-    config_menu.add_command(label='Planner gun', command=(lambda: cell_map_widget.on_set_config(planner_gun(CELL_COUNT))))
+    config_menu.add_command(label='Planner gun', command=(lambda: cell_map_widget.on_set_config(deserialize_cellmap('map_configs/planner.cfg'))))
 
     main_menu.add_cascade(label='Config', menu=config_menu)
 

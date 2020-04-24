@@ -19,8 +19,20 @@ def serialize_cellmap(cellmap: List[List[int]], file_name: str):
             file.write('{} '.format(num))
             
         file.write('\n')
-            
 
 
 def deserialize_cellmap(file_name: str) -> List[List[int]]:
-    pass
+    file = open(file_name, 'r')
+
+    width, height = [int(num) for num in file.readline().split(' ')]
+
+    nums = [int(num) for num in file.readline().split(' ') if num != '\n']
+    cellmap = [[0 for i in range(width)] for j in range(height)]
+    for y in range(height):
+        mul = 2**width
+
+        for x in range(width):
+            cellmap[y][x] = nums[y] % 2
+            nums[y] //= 2
+
+    return cellmap
