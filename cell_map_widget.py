@@ -1,6 +1,7 @@
 from tkinter import Frame, Canvas, TOP
 from cell_map import CellMap
 from typing import List
+from logger import Logger
 
 
 class CellMapWidget(Frame):
@@ -11,6 +12,7 @@ class CellMapWidget(Frame):
         self.cell_map = cell_map
         self.step_interval = step_interval
         self.simulating = False
+        self.logging = False
 
         self.canvas = Canvas(master, 
             width=(self.cells_count * cell_size),
@@ -63,6 +65,9 @@ class CellMapWidget(Frame):
 
         self.cell_map.step()
 
+        if self.logging:
+            self.logger.log(self.cell_map.map)
+
         self.draw()
 
 
@@ -88,6 +93,9 @@ class CellMapWidget(Frame):
 
         self.cell_map.randomize()
 
+        if self.logging:
+            self.logger.log(self.cell_map.map)
+
         self.draw()
 
 
@@ -95,6 +103,9 @@ class CellMapWidget(Frame):
         self.canvas.delete('all')
 
         self.cell_map.clear()
+
+        if self.logging:
+            self.logger.log(self.cell_map.map)
 
         self.draw()
 
@@ -104,4 +115,18 @@ class CellMapWidget(Frame):
 
         self.cell_map.map = new_map
 
+        if self.logging:
+            self.logger.log(self.cell_map.map)
+
         self.draw()
+
+
+    def on_start_log(self, session_name: str = 'default'):
+        self.logging = True
+        self.logger = Logger()
+        self.logger.start_session(self.cell_map.map, session_name)
+
+
+    def on_end_log(self):
+        self.logger.end_session()
+        self.logging = False

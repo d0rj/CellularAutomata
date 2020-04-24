@@ -32,7 +32,10 @@ def main():
 
     main_menu = Menu()
     config_menu = Menu()
-    config_menu.add_command(label='Planner gun', command=(lambda: cell_map_widget.on_set_config(deserialize_cellmap('map_configs/planner.cfg'))))
+    config_menu.add_command(label='Planner gun', 
+        command=(
+            lambda: cell_map_widget.on_set_config(deserialize_cellmap('map_configs/planner.cfg')))
+        )
 
     main_menu.add_cascade(label='Config', menu=config_menu)
 
