@@ -1,6 +1,6 @@
 from cell_map import CellMap
 from typing import List
-from serialization import serialize_cellmap
+from serialization import serialize_cellmap, serialize_cellmap_only
 
 
 class Logger:
@@ -11,17 +11,23 @@ class Logger:
         self.count = 1
 
 
-    def log(self, map: List[List[int]]):
-        serialize_cellmap(map, '{0}/{1}_{2}.log'.format(self.session, self.count, self.path))
+    def get_file_name(self) -> str:
+        return '{0}/{1}_{2}.log'.format(self.session, self.count, self.path)
+
+
+    def log(self, cellmap: List[List[int]]):
+        serialize_cellmap_only(cellmap, len(cellmap[0]), len(cellmap), self.get_file_name())
         self.count += 1
 
 
-    def start_session(self, map: List[List[int]], session_name: str = ''):
+    def start_session(self, cellmap: List[List[int]], session_name: str = ''):
         if session_name == '':
             self.id += 1
             self.session = 'default_' + str(self.id)
         else:
             self.session = session_name
+
+        serialize_cellmap(cellmap, self.get_file_name())
 
         self.count = 1
 
