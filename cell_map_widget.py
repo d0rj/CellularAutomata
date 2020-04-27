@@ -130,3 +130,12 @@ class CellMapWidget(Frame):
     def on_end_log(self):
         self.logger.end_session()
         self.logging = False
+
+
+    def on_log(self, indicator, session_name: str = 'default'):
+        if not self.logging:
+            indicator.configure(bg='red')
+            self.on_start_log(session_name)
+        else:
+            indicator.configure(bg='white')
+            self.on_end_log()

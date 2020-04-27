@@ -29,6 +29,7 @@ def main():
     clear_button = Button(f_bot, text='Clear', command=cell_map_widget.on_clear)
     simulate_button = Button(f_bot, text='Simulate', command=lambda: cell_map_widget.on_simulate(simulate_button))
     random_button = Button(f_bot, text='Random', command=cell_map_widget.on_randomize)
+    log_button = Button(f_bot, text='Log', command=lambda: cell_map_widget.on_log(log_button))
 
     main_menu = Menu()
     config_menu = Menu()
@@ -43,6 +44,7 @@ def main():
     clear_button.pack(side=RIGHT)
     simulate_button.pack(side=BOTTOM)
     random_button.pack(side=BOTTOM)
+    log_button.pack(side=BOTTOM)
 
     root.config(menu=main_menu)
     root.mainloop()
