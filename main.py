@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter.filedialog import *
-from typing import List
-import time
+
 from cell_map import CellMap
 from cell_map_widget import CellMapWidget
 from map_configs.clear import clear_map
@@ -11,7 +10,8 @@ from serialization import serialize_cellmap, deserialize_cellmap
 CELL_SIZE  = 10
 CELL_COUNT = 60
 STEP_INTERVAL = 100
-rule = {'b': [3], 's': [2, 3]}
+default_rule = {'b': [3], 's': [2, 3]}
+FILETYPES = [('config files', '.cfg'), ('log files', '.log')]
 
 
 def main():
@@ -21,7 +21,7 @@ def main():
     f_top = Frame(root, width=(CELL_COUNT * CELL_SIZE), height=(CELL_COUNT * CELL_SIZE))
     f_bot = Frame(root)
 
-    cell_map = CellMap(CELL_COUNT, rule)
+    cell_map = CellMap(CELL_COUNT, default_rule)
     cell_map_widget = CellMapWidget(f_top, CELL_SIZE, STEP_INTERVAL, cell_map)
 
     f_top.pack(fill=X, side=TOP)
@@ -35,17 +35,29 @@ def main():
     main_menu = Menu()
 
     file_menu = Menu()
-    file_menu.add_command(label='Open',
+    file_menu.add_command(
+        label='Open',
         command=(
             lambda: 
             cell_map_widget.on_set_config(deserialize_cellmap(askopenfilename(
-                initialdir='/', title='Select config', filetypes=[('config files', '.cfg'), ('log files', '.log')]
+                initialdir='/', title='Select config', filetypes=FILETYPES
             )) or clear_map(CELL_COUNT))
+        )
+    )
+    file_menu.add_command(
+        label='Create',
+        command=(
+            lambda: 
+            serialize_cellmap(
+                cell_map_widget.cell_map.map, 
+                asksaveasfilename(filetypes=FILETYPES, defaultextension='.cfg') or './default.cfg'
+            )
         )
     )
 
     config_menu = Menu()
-    config_menu.add_command(label='Planner gun', 
+    config_menu.add_command(
+        label='Planner gun', 
         command=(
             lambda: cell_map_widget.on_set_config(deserialize_cellmap('map_configs/planner.cfg'))
             )
