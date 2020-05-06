@@ -38,7 +38,11 @@ def deserialize_cellmap_only(file_name: str, width: int, height: int, opened_fil
 
 
 def deserialize_cellmap(file_name: str) -> List[List[int]]:
-    file = open(file_name, 'r')
+    try:
+        file = open(file_name, 'r')
+    except Exception:
+        return None
+    
     width, height = [int(num) for num in file.readline().split(' ')]
 
     return deserialize_cellmap_only(file_name, width, height, file)

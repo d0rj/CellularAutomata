@@ -1,9 +1,10 @@
 from tkinter import *
+from tkinter.filedialog import *
 from typing import List
 import time
 from cell_map import CellMap
 from cell_map_widget import CellMapWidget
-from map_configs.planner_gun import planner_gun
+from map_configs.clear import clear_map
 from serialization import serialize_cellmap, deserialize_cellmap
 
 
@@ -32,12 +33,25 @@ def main():
     log_button = Button(f_bot, text='Log', command=lambda: cell_map_widget.on_log(log_button))
 
     main_menu = Menu()
+
+    file_menu = Menu()
+    file_menu.add_command(label='Open',
+        command=(
+            lambda: 
+            cell_map_widget.on_set_config(deserialize_cellmap(askopenfilename(
+                initialdir='/', title='Select config', filetypes=[('config files', '.cfg'), ('log files', '.log')]
+            )) or clear_map(CELL_COUNT))
+        )
+    )
+
     config_menu = Menu()
     config_menu.add_command(label='Planner gun', 
         command=(
-            lambda: cell_map_widget.on_set_config(deserialize_cellmap('map_configs/planner.cfg')))
-        )
+            lambda: cell_map_widget.on_set_config(deserialize_cellmap('map_configs/planner.cfg'))
+            )
+    )
 
+    main_menu.add_cascade(label='File', menu=file_menu)
     main_menu.add_cascade(label='Config', menu=config_menu)
 
     one_step.pack(side=LEFT)
