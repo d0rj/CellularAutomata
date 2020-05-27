@@ -19,7 +19,11 @@ def main():
     root = Tk()
     root.title('Celluar automat')
     root.geometry('{}x{}'.format(CELL_COUNT * CELL_SIZE, (CELL_COUNT * CELL_SIZE) + INSTRUMENTS_SIZE))
-    f_map = Frame(root, width=(CELL_COUNT * CELL_SIZE), height=(CELL_COUNT * CELL_SIZE))
+
+    f_map = Frame(root, 
+                    width=(CELL_COUNT * CELL_SIZE), 
+                    height=(CELL_COUNT * CELL_SIZE)
+                    )
     f_instruments = Frame(root)
 
     play_icon = PhotoImage(file='.\images\play_icon.png').subsample(INSTRUMENTS_SIZE, INSTRUMENTS_SIZE)
@@ -29,11 +33,37 @@ def main():
     cell_map = CellMap(CELL_COUNT, default_rule)
     cell_map_widget = CellMapWidget(f_map, CELL_SIZE, STEP_INTERVAL, cell_map)
 
-    one_step = Button(f_instruments, text='Step', command=cell_map_widget.step, image=next_icon, compound=LEFT, height=INSTRUMENTS_SIZE)  
-    clear_button = Button(f_instruments, text='Clear', command=cell_map_widget.on_clear, height=INSTRUMENTS_SIZE)
-    simulate_button = Button(f_instruments, text='Simulate', command=lambda: cell_map_widget.on_simulate(simulate_button), image=play_icon, compound=LEFT, height=INSTRUMENTS_SIZE)
-    random_button = Button(f_instruments, text='Random', command=cell_map_widget.on_randomize, image=random_icon, compound=LEFT, height=INSTRUMENTS_SIZE)
-    log_button = Button(f_instruments, text='Log', command=lambda: cell_map_widget.on_log(log_button), height=INSTRUMENTS_SIZE)
+    one_step = Button(f_instruments, 
+                        text='Step', 
+                        command=cell_map_widget.step, 
+                        image=next_icon, 
+                        compound=LEFT, 
+                        height=INSTRUMENTS_SIZE
+                        )  
+    clear_button = Button(f_instruments, 
+                            text='Clear', 
+                            command=cell_map_widget.on_clear, 
+                            height=INSTRUMENTS_SIZE
+                            )
+    simulate_button = Button(f_instruments, 
+                                text='Simulate', 
+                                command=lambda: cell_map_widget.on_simulate(simulate_button), 
+                                image=play_icon, 
+                                compound=LEFT, 
+                                height=INSTRUMENTS_SIZE
+                                )
+    random_button = Button(f_instruments, 
+                            text='Random', 
+                            command=cell_map_widget.on_randomize, 
+                            image=random_icon, 
+                            compound=LEFT, 
+                            height=INSTRUMENTS_SIZE
+                            )
+    log_button = Button(f_instruments, 
+                        text='Log', 
+                        command=lambda: cell_map_widget.on_log(log_button), 
+                        height=INSTRUMENTS_SIZE
+                        )
 
     main_menu = Menu()
 
