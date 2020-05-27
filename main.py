@@ -21,15 +21,19 @@ def main():
     f_top = Frame(root, width=(CELL_COUNT * CELL_SIZE), height=(CELL_COUNT * CELL_SIZE))
     f_bot = Frame(root)
 
+    play_icon = PhotoImage(file='.\images\play_icon.png').subsample(30, 30)
+    next_icon = PhotoImage(file='.\images\\next_icon.png').subsample(30, 30)
+    random_icon = PhotoImage(file='.\images\\random_icon.png').subsample(30, 30)
+
     cell_map = CellMap(CELL_COUNT, default_rule)
     cell_map_widget = CellMapWidget(f_top, CELL_SIZE, STEP_INTERVAL, cell_map)
 
     f_top.pack(fill=X, side=TOP)
     f_bot.pack(fill=X, side=BOTTOM)
-    one_step = Button(f_bot, text='Step', command=cell_map_widget.step)  
+    one_step = Button(f_bot, text='Step', command=cell_map_widget.step, image=next_icon, compound=LEFT)  
     clear_button = Button(f_bot, text='Clear', command=cell_map_widget.on_clear)
-    simulate_button = Button(f_bot, text='Simulate', command=lambda: cell_map_widget.on_simulate(simulate_button))
-    random_button = Button(f_bot, text='Random', command=cell_map_widget.on_randomize)
+    simulate_button = Button(f_bot, text='Simulate', command=lambda: cell_map_widget.on_simulate(simulate_button), image=play_icon, compound=LEFT)
+    random_button = Button(f_bot, text='Random', command=cell_map_widget.on_randomize, image=random_icon, compound=LEFT)
     log_button = Button(f_bot, text='Log', command=lambda: cell_map_widget.on_log(log_button))
 
     main_menu = Menu()
