@@ -16,13 +16,15 @@ INSTRUMENTS_SIZE = 30
 
 
 def main():
+    pixels_width = CELL_COUNT * CELL_SIZE
+    
     root = Tk()
     root.title('Celluar automat')
-    root.geometry('{}x{}'.format(CELL_COUNT * CELL_SIZE, (CELL_COUNT * CELL_SIZE) + INSTRUMENTS_SIZE))
+    root.geometry('{}x{}'.format(pixels_width, (pixels_width) + INSTRUMENTS_SIZE))
 
     f_map = Frame(root, 
-                    width=(CELL_COUNT * CELL_SIZE), 
-                    height=(CELL_COUNT * CELL_SIZE)
+                    width=pixels_width, 
+                    height=pixels_width
                     )
     f_instruments = Frame(root)
 
