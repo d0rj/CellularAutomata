@@ -3,7 +3,6 @@ from tkinter.filedialog import *
 
 from cell_map import CellMap
 from cell_map_widget import CellMapWidget
-from map_configs.clear import clear_map
 from serialization import serialize_cellmap, deserialize_cellmap
 
 
@@ -76,7 +75,7 @@ def main():
             lambda: 
             cell_map_widget.on_set_config(deserialize_cellmap(askopenfilename(
                 initialdir='/', title='Select config', filetypes=FILETYPES
-            )) or clear_map(CELL_COUNT))
+            )) or CellMap.clear_map(CELL_COUNT))
         )
     )
     file_menu.add_command(

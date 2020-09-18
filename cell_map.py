@@ -2,15 +2,11 @@ from typing import Dict, List
 from random import randint
 
 
-def get_empty_map(size: int) -> List[List[int]]:
-    return [[0 for j in range(size)] for i in range(size)]
-
-
 class CellMap:
 
     def __init__(self, cells_count: int = 10, rule: Dict[str, List[int]] = {'b': [3], 's': [2, 3]}):
         self.cells_count = 60
-        self.map = get_empty_map(self.cells_count)
+        self.map = CellMap.clear_map(self.cells_count)
         self.rule = rule
 
 
@@ -61,7 +57,7 @@ class CellMap:
 
 
     def step(self):
-        new_map = get_empty_map(self.cells_count)
+        new_map = CellMap.clear_map(self.cells_count)
 
         for x in range(self.cells_count):
             for y in range(self.cells_count):
@@ -78,8 +74,13 @@ class CellMap:
 
 
     def clear(self):
-        self.map = get_empty_map(self.cells_count)
+        self.map = CellMap.clear_map(self.cells_count)
 
 
     def randomize(self):
         self.map = [[randint(0, 1) for j in range(self.cells_count)] for i in range(self.cells_count)]
+
+
+    @staticmethod
+    def clear_map(cell_count: int) -> List[List[int]]:
+        return [[0 for j in range(cell_count)] for i in range(cell_count)]
