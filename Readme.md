@@ -8,7 +8,7 @@
 
 ## Использование
 
-```cmd
+```bash
 python main.py
 ```
 
