@@ -8,7 +8,7 @@ from serialization import serialize_cellmap, deserialize_cellmap
 
 CELL_SIZE  = 10
 CELL_COUNT = 60
-STEP_INTERVAL = 100
+STEP_INTERVAL = 50
 default_rule = {'b': [3], 's': [2, 3]}
 FILETYPES = [('config files', '.cfg'), ('log files', '.log')]
 INSTRUMENTS_SIZE = 30

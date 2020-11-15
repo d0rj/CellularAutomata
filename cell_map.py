@@ -1,17 +1,17 @@
 from typing import Dict, List
-from random import randint
+import numpy as np
 
 
 class CellMap:
 
 	def __init__(self, cells_count: int = 10, rule: Dict[str, List[int]] = {'b': [3], 's': [2, 3]}):
-		self.cells_count = 60
+		self.cells_count = cells_count
 		self.map = CellMap.clear_map(self.cells_count)
 		self.rule = rule
 
 
-	def get_point_neighbors(self, x: int, y: int) -> List[List[int]]:
-		neighbors = [[0, 0]for i in range(8)]
+	def get_point_neighbors(self, x: int, y: int) -> np.ndarray:
+		neighbors = np.zeros((8, 8)).astype(int)
 		position = 0
 
 		for i in range(x - 1, x + 2):
@@ -20,18 +20,18 @@ class CellMap:
 					continue
 
 				if i < 0:
-					neighbors[position][0] = self.cells_count + i
+					neighbors[position, 0] = self.cells_count + i
 				elif i > self.cells_count - 1:
-					neighbors[position][0] = i - self.cells_count
+					neighbors[position, 0] = i - self.cells_count
 				else:
-					neighbors[position][0] = i
+					neighbors[position, 0] = i
 
 				if j < 0:
-					neighbors[position][1] = self.cells_count + j
+					neighbors[position, 1] = self.cells_count + j
 				elif j > self.cells_count - 1:
-					neighbors[position][1] = j - self.cells_count
+					neighbors[position, 1] = j - self.cells_count
 				else:
-					neighbors[position][1] = j
+					neighbors[position, 1] = j
 
 				position += 1
 
@@ -43,14 +43,14 @@ class CellMap:
 		neighbors = self.get_point_neighbors(x, y)
 
 		for i in range(8):
-			_x = neighbors[i][0]
-			_y = neighbors[i][1]
+			_x = neighbors[i, 0]
+			_y = neighbors[i, 1]
 
 			if _x < 0 or _y < 0:
 				continue
 			if _x >= self.cells_count or _y >= self.cells_count:
 				continue
-			if self.map[_x][_y] == 1:
+			if self.map[_x, _y] == 1:
 				count += 1
 
 		return count
@@ -63,12 +63,12 @@ class CellMap:
 			for y in range(self.cells_count):
 				count = self.neighbors_count(x, y)
 
-				if self.map[x][y] == 0 and (count in self.rule['b']):
-					new_map[x][y] = 1
-				elif self.map[x][y] == 1 and (count in self.rule['s']):
-					new_map[x][y] = 1
+				if self.map[x, y] == 0 and (count in self.rule['b']):
+					new_map[x, y] = 1
+				elif self.map[x, y] == 1 and (count in self.rule['s']):
+					new_map[x, y] = 1
 				else:
-					new_map[x][y] = 0
+					new_map[x, y] = 0
 
 		self.map = new_map
 
@@ -78,9 +78,9 @@ class CellMap:
 
 
 	def randomize(self):
-		self.map = [[randint(0, 1) for j in range(self.cells_count)] for i in range(self.cells_count)]
+		self.map = np.random.randint(2, size=(self.cells_count, self.cells_count)).astype(int)
 
 
 	@staticmethod
-	def clear_map(cell_count: int) -> List[List[int]]:
-		return [[0 for j in range(cell_count)] for i in range(cell_count)]
+	def clear_map(cell_count: int) -> np.ndarray:
+		return np.zeros((cell_count, cell_count)).astype(int)

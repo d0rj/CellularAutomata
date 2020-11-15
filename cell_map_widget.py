@@ -2,6 +2,7 @@ from tkinter import Frame, Canvas, TOP
 from cell_map import CellMap
 from typing import List
 from logger import Logger
+import numpy as np
 
 
 class CellMapWidget(Frame):
@@ -31,7 +32,7 @@ class CellMapWidget(Frame):
 
 	def on_click(self, event):
 		x, y = event.x // self.cell_size, event.y // self.cell_size
-		self.cell_map.map[x][y] = (self.cell_map.map[x][y] + 1) % 2
+		self.cell_map.map[x, y] = (self.cell_map.map[x, y] + 1) % 2
 
 		self.canvas.delete('all')
 		self.draw()
@@ -56,7 +57,7 @@ class CellMapWidget(Frame):
 	def draw_map(self):
 		for i in range(self.cells_count):
 			for j in range(self.cells_count):
-				if self.cell_map.map[i][j] == 1:
+				if self.cell_map.map[i, j] == 1:
 					self.draw_cell(i, j)
 
 
@@ -110,7 +111,7 @@ class CellMapWidget(Frame):
 		self.draw()
 
 
-	def on_set_config(self, new_map: List[List[int]]):
+	def on_set_config(self, new_map: np.ndarray):
 		self.canvas.delete('all')
 
 		self.cell_map.map = new_map

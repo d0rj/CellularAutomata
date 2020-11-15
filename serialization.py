@@ -1,7 +1,7 @@
-from typing import List
+import numpy as np
 
 
-def serialize_cellmap_only(cellmap: List[List[int]], width: int, height: int, file_name: str):
+def serialize_cellmap_only(cellmap: np.ndarray, width: int, height: int, file_name: str):
 	with open(file_name, 'a+') as file:
 		file.write('{0} {1}\n'.format(width, height))
 		for y in range(height):
@@ -9,7 +9,7 @@ def serialize_cellmap_only(cellmap: List[List[int]], width: int, height: int, fi
 			mul = 1
 
 			for x in range(width):
-				num += mul * cellmap[y][x]
+				num += mul * cellmap[y, x]
 				mul *= 2
 
 			file.write('{} '.format(num))
@@ -17,27 +17,26 @@ def serialize_cellmap_only(cellmap: List[List[int]], width: int, height: int, fi
 		file.write('\n')
 
 
-def serialize_cellmap(cellmap: List[List[int]], file_name: str):
+def serialize_cellmap(cellmap: np.ndarray, file_name: str):
 	width = len(cellmap[0])
 	height = len(cellmap)
 
 	serialize_cellmap_only(cellmap, width, height, file_name)
 
 
-def deserialize_cellmap_only(file_name: str, width: int, height: int, opened_file) -> List[List[int]]:
+def deserialize_cellmap_only(width: int, height: int, opened_file) -> np.ndarray:
 	nums = [int(num) for num in opened_file.readline().split(' ') if num != '\n']
-	cellmap = [[0 for i in range(width)] for j in range(height)]
-	for y in range(height):
-		mul = 2**width
+	cellmap = np.zeros((height, width)).astype(int)
 
+	for y in range(height):
 		for x in range(width):
-			cellmap[y][x] = nums[y] % 2
+			cellmap[y, x] = nums[y] % 2
 			nums[y] //= 2
 
 	return cellmap
 
 
-def deserialize_cellmap(file_name: str) -> List[List[int]]:
+def deserialize_cellmap(file_name: str) -> np.ndarray:
 	try:
 		file = open(file_name, 'r')
 	except Exception:
@@ -45,4 +44,4 @@ def deserialize_cellmap(file_name: str) -> List[List[int]]:
 	
 	width, height = [int(num) for num in file.readline().split(' ')]
 
-	return deserialize_cellmap_only(file_name, width, height, file)
+	return deserialize_cellmap_only(width, height, file)
