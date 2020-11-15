@@ -73,9 +73,11 @@ def main():
 		label='Open',
 		command=(
 			lambda: 
-			cell_map_widget.on_set_config(deserialize_cellmap(askopenfilename(
-				initialdir='/', title='Select config', filetypes=FILETYPES
-			)) or CellMap.clear_map(CELL_COUNT))
+			cell_map_widget.on_set_config(
+				deserialize_cellmap(
+					askopenfilename(initialdir='/', title='Select config', filetypes=FILETYPES)
+					)
+				)
 		)
 	)
 	file_menu.add_command(

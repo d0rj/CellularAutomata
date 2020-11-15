@@ -44,4 +44,8 @@ def deserialize_cellmap(file_name: str) -> np.ndarray:
 	
 	width, height = [int(num) for num in file.readline().split(' ')]
 
-	return deserialize_cellmap_only(width, height, file)
+	result = deserialize_cellmap_only(width, height, file)
+	if result.any():
+		return result
+	else:
+		return np.zeros((height, width)).astype(int)
