@@ -47,18 +47,23 @@ class CellMapWidget(Frame):
 
 
 	def draw_grid(self):
-		for i in range(0, self.cells_count * self.cell_size, self.cell_size):
-			self.canvas.create_line(0, i, self.cells_count * self.cell_size, i)
+		draw_line_func = self.canvas.create_line
 
 		for i in range(0, self.cells_count * self.cell_size, self.cell_size):
-			self.canvas.create_line(i, 0, i, self.cells_count * self.cell_size)
+			draw_line_func(0, i, self.cells_count * self.cell_size, i)
+
+		for i in range(0, self.cells_count * self.cell_size, self.cell_size):
+			draw_line_func(i, 0, i, self.cells_count * self.cell_size)
 
 
 	def draw_map(self):
-		for i in range(self.cells_count):
-			for j in range(self.cells_count):
+		draw_cell_func = self.draw_cell
+		cells_count = self.cells_count
+
+		for i in range(cells_count):
+			for j in range(cells_count):
 				if self.cell_map.map[i, j] == 1:
-					self.draw_cell(i, j)
+					draw_cell_func(i, j)
 
 
 	def step(self):

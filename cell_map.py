@@ -58,10 +58,11 @@ class CellMap:
 
 	def step(self):
 		new_map = CellMap.clear_map(self.cells_count)
+		count_func = self.neighbors_count
 
 		for x in range(self.cells_count):
 			for y in range(self.cells_count):
-				count = self.neighbors_count(x, y)
+				count = count_func(x, y)
 
 				if self.map[x, y] == 0 and (count in self.rule['b']):
 					new_map[x, y] = 1
