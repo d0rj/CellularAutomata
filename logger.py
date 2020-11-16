@@ -1,8 +1,7 @@
-from cell_map import CellMap
-from typing import List
-from serialization import serialize_cellmap, serialize_cellmap_only
+from serialization import serialize_cellmap
 import os
 import shutil
+import numpy as np
 
 
 class Logger:
@@ -16,12 +15,12 @@ class Logger:
 		return '{0}/{1}_step.log'.format(self.session, self.count)
 
 
-	def log(self, cellmap: List[List[int]]):
+	def log(self, cellmap: np.ndarray):
 		serialize_cellmap(cellmap, self.get_file_name())
 		self.count += 1
 
 
-	def start_session(self, cellmap: List[List[int]], session_name: str = ''):
+	def start_session(self, cellmap: np.ndarray, session_name: str = ''):
 		if os.path.exists(self.session):
 		   shutil.rmtree(self.session)
 			

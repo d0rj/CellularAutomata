@@ -1,4 +1,5 @@
 import numpy as np
+from cell_map import CellMap
 
 
 def serialize_cellmap_only(cellmap: np.ndarray, width: int, height: int, file_name: str):
@@ -36,11 +37,11 @@ def deserialize_cellmap_only(width: int, height: int, opened_file) -> np.ndarray
 	return cellmap
 
 
-def deserialize_cellmap(file_name: str) -> np.ndarray:
+def deserialize_cellmap(file_name: str, map_size: int = 60) -> np.ndarray:
 	try:
 		file = open(file_name, 'r')
 	except Exception:
-		return None
+		return CellMap.clear_map(map_size)
 	
 	width, height = [int(num) for num in file.readline().split(' ')]
 
