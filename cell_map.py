@@ -1,15 +1,17 @@
 from typing import Dict, List
+from copy import deepcopy
 
 import numpy as np
 
 
 class CellMap:
-    __slots__ = ('cells_count', 'rule', 'map')
+    __slots__ = ('cells_count', 'rule', 'map', 'next_map')
 
 
     def __init__(self, cells_count: int, rule: Dict[str, List[int]]):
         self.cells_count = cells_count
-        self.map = CellMap.clear_map(self.cells_count)
+        self.map = np.zeros((cells_count, cells_count)).astype(int)
+        self.next_map = deepcopy(self.map)
         self.rule = rule
 
 
@@ -56,31 +58,28 @@ class CellMap:
 
 
     def step(self):
-        new_map = CellMap.clear_map(self.cells_count)
         count_func = self._neighbors_count
+        cells_count = self.cells_count
+        rule = self.rule
 
-        for x in range(self.cells_count):
-            for y in range(self.cells_count):
+        for x in range(cells_count):
+            for y in range(cells_count):
                 count = count_func(x, y)
 
-                if self.map[x, y] == 0 and (count in self.rule['b']):
-                    new_map[x, y] = 1
-                elif self.map[x, y] == 1 and (count in self.rule['s']):
-                    new_map[x, y] = 1
+                if self.map[x, y] == 0 and (count in rule['b']):
+                    self.next_map[x, y] = 1
+                elif self.map[x, y] == 1 and (count in rule['s']):
+                    self.next_map[x, y] = 1
                 else:
-                    new_map[x, y] = 0
+                    self.next_map[x, y] = 0
 
-        self.map = new_map
+        self.map = self.next_map.copy()
+        self.next_map.fill(0)
 
 
     def clear(self):
-        self.map = CellMap.clear_map(self.cells_count)
+        self.map.fill(0)
 
 
     def randomize(self):
         self.map = np.random.randint(2, size=(self.cells_count, self.cells_count)).astype(int)
-
-
-    @staticmethod
-    def clear_map(cell_count: int) -> np.ndarray:
-        return np.zeros((cell_count, cell_count)).astype(int)

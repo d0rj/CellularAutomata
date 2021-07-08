@@ -147,7 +147,7 @@ class CellMapWidget(Frame):
         self.logging = False
 
 
-    def on_log(self, indicator, session_name: str = 'default'):
+    def on_log(self, indicator, session_name: str='default'):
         if not self.logging:
             indicator.configure(bg='red')
             self.on_start_log(session_name)
