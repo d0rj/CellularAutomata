@@ -1,11 +1,16 @@
-from serialization import serialize_cellmap
 import os
 import shutil
+
 import numpy as np
+
+from serialization import serialize_cellmap
 
 
 class Logger:
-	def __init__(self, session: str = 'default'):
+	__slots__ = ('session', 'id', 'count')
+
+
+	def __init__(self, session: str='default'):
 		self.session = session
 		self.id = 0
 		self.count = 1
@@ -20,10 +25,10 @@ class Logger:
 		self.count += 1
 
 
-	def start_session(self, cellmap: np.ndarray, session_name: str = ''):
+	def start_session(self, cellmap: np.ndarray, session_name: str=''):
 		if os.path.exists(self.session):
 		   shutil.rmtree(self.session)
-			
+		
 		os.makedirs(self.session)
 
 		if session_name == '':

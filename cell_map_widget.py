@@ -1,26 +1,27 @@
 from tkinter import Frame, Canvas, TOP
-from cell_map import CellMap
-from typing import List
-from logger import Logger
 import numpy as np
+
+from cell_map import CellMap
+from logger import Logger
 
 
 class CellMapWidget(Frame):
 
 	def __init__(self, master, cell_size: int, step_interval: int, cell_map: CellMap):
-		self.cells_count = cell_map.cells_count
 		self.cell_size = cell_size
-		self.cell_map = cell_map
 		self.step_interval = step_interval
+		self.cell_map = cell_map
 		self.simulating = False
 		self.logging = False
 
-		self.canvas = Canvas(master, 
-			width=(self.cells_count * cell_size),
-			height=(self.cells_count * cell_size),
-			bg='white')
+		self.canvas = Canvas(
+			master, 
+			width=(self.cell_map.cells_count * cell_size),
+			height=(self.cell_map.cells_count * cell_size),
+			bg='white'
+			)
 		self.canvas.pack(side=TOP)
-		self.canvas.bind('<Button-1>', self.on_click)
+		self.canvas.bind('<Button-1>', self._on_click)
 
 		self.draw()
 
@@ -30,7 +31,7 @@ class CellMapWidget(Frame):
 		self.draw_map()
 		
 
-	def on_click(self, event):
+	def _on_click(self, event):
 		x, y = event.x // self.cell_size, event.y // self.cell_size
 		self.cell_map.map[x, y] = (self.cell_map.map[x, y] + 1) % 2
 
@@ -39,30 +40,37 @@ class CellMapWidget(Frame):
 
 
 	def draw_cell(self, x: int, y: int):
-		self.canvas.create_rectangle(self.cell_size * x,
-			self.cell_size * y, 
-			self.cell_size * (x+1), 
-			self.cell_size * (y+1), 
-			fill='black')
+		cell_size = self.cell_size
+
+		self.canvas.create_rectangle(
+			cell_size * x,
+			cell_size * y, 
+			cell_size * (x + 1), 
+			cell_size * (y + 1), 
+			fill='black'
+			)
 
 
 	def draw_grid(self):
 		draw_line_func = self.canvas.create_line
+		cells_count = self.cell_map.cells_count
+		cell_size = self.cell_size
 
-		for i in range(0, self.cells_count * self.cell_size, self.cell_size):
-			draw_line_func(0, i, self.cells_count * self.cell_size, i)
+		for i in range(0, cells_count * cell_size, cell_size):
+			draw_line_func(0, i, cells_count * cell_size, i)
 
-		for i in range(0, self.cells_count * self.cell_size, self.cell_size):
-			draw_line_func(i, 0, i, self.cells_count * self.cell_size)
+		for i in range(0, cells_count * cell_size, cell_size):
+			draw_line_func(i, 0, i, cells_count * cell_size)
 
 
 	def draw_map(self):
 		draw_cell_func = self.draw_cell
-		cells_count = self.cells_count
+		cells_count = self.cell_map.cells_count
+		map_ = self.cell_map.map
 
 		for i in range(cells_count):
 			for j in range(cells_count):
-				if self.cell_map.map[i, j] == 1:
+				if map_[i, j] == 1:
 					draw_cell_func(i, j)
 
 

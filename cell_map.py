@@ -1,16 +1,19 @@
 from typing import Dict, List
+
 import numpy as np
 
 
 class CellMap:
+	__slots__ = ('cells_count', 'rule', 'map')
 
-	def __init__(self, cells_count: int = 10, rule: Dict[str, List[int]] = {'b': [3], 's': [2, 3]}):
+
+	def __init__(self, cells_count: int=10, rule: Dict[str, List[int]]={'b': [3], 's': [2, 3]}):
 		self.cells_count = cells_count
 		self.map = CellMap.clear_map(self.cells_count)
 		self.rule = rule
 
 
-	def get_point_neighbors(self, x: int, y: int) -> np.ndarray:
+	def _get_point_neighbors(self, x: int, y: int) -> np.ndarray:
 		neighbors = np.zeros((8, 8)).astype(int)
 		position = 0
 
@@ -38,18 +41,14 @@ class CellMap:
 		return neighbors
 
 
-	def neighbors_count(self, x: int, y: int) -> int:
+	def _neighbors_count(self, x: int, y: int) -> int:
 		count = 0
-		neighbors = self.get_point_neighbors(x, y)
+		neighbors = self._get_point_neighbors(x, y)
 
 		for i in range(8):
 			_x = neighbors[i, 0]
 			_y = neighbors[i, 1]
 
-			if _x < 0 or _y < 0:
-				continue
-			if _x >= self.cells_count or _y >= self.cells_count:
-				continue
 			if self.map[_x, _y] == 1:
 				count += 1
 
@@ -58,7 +57,7 @@ class CellMap:
 
 	def step(self):
 		new_map = CellMap.clear_map(self.cells_count)
-		count_func = self.neighbors_count
+		count_func = self._neighbors_count
 
 		for x in range(self.cells_count):
 			for y in range(self.cells_count):
