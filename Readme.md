@@ -13,9 +13,11 @@ The field is an unfolding of the torus.
 
 ## Example of work
 
-![On application start screen](./screenshots/on_start.png)
+<p float="left">
+<img src="https://github.com/d0rj/CellularAutomata/blob/master/screenshots/on_start.PNG?raw=true" width=300>
 
-![Planner gun configuration in work](./screenshots/planner_gun.png)
+<img src="https://github.com/d0rj/CellularAutomata/blob/master/screenshots/planner_gun.PNG?raw=true" width=300>
+</p>
 
 ## How to use
 
