@@ -18,7 +18,7 @@ def main():
     pixels_width = CELL_COUNT * CELL_SIZE
 
     root = Tk()
-    root.title('Celluar automat')
+    root.title('Cellular automata (Game of life version)')
     root.geometry('{}x{}'.format(pixels_width, (pixels_width) + INSTRUMENTS_SIZE))
 
     f_map = Frame(
