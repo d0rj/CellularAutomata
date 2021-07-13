@@ -1,4 +1,5 @@
-from tkinter import Tk, Frame, PhotoImage, Button, Menu, X, LEFT, BOTTOM, TOP
+from tkinter import Tk, Frame, PhotoImage, Button, Menu, Entry, Label, X, LEFT, BOTTOM, TOP
+from tkinter.constants import RIGHT
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from os import listdir
 
@@ -15,12 +16,18 @@ FILETYPES = [('config files', '.cfg'), ('log files', '.log')]
 INSTRUMENTS_SIZE = 30
 
 
+def input_to_list(string: str) -> list:
+    string.replace(',', ' ')
+    return [int(num) for num in string.split()]
+
+
 def main():
     pixels_width = CELL_COUNT * CELL_SIZE
 
     root = Tk()
     root.title('Cellular automata (Game of life version)')
     root.geometry(f'{pixels_width}x{pixels_width + INSTRUMENTS_SIZE}')
+    root.resizable(False, False)
 
     f_map = Frame(
         root,
@@ -76,6 +83,22 @@ def main():
         height=INSTRUMENTS_SIZE
         )
 
+    birth_entry = Entry(f_instruments, width=10)
+    birth_entry.insert(0, DEFAULT_RULE['b'])
+    birth_label = Label(f_instruments, text='Birth:')
+    survive_entry = Entry(f_instruments, width=10)
+    survive_entry.insert(0, DEFAULT_RULE['s'])
+    survive_label = Label(f_instruments, text='Survive:')
+
+    configure_button = Button(
+        f_instruments,
+        text='Configure',
+        command=lambda: cell_map.set_rule({
+                'b': input_to_list(birth_entry.get()),
+                's': input_to_list(survive_entry.get())
+            })
+    )
+
     main_menu = Menu()
 
     file_menu = Menu(main_menu)
@@ -120,6 +143,12 @@ def main():
     clear_button.pack(side=LEFT)
     random_button.pack(side=LEFT)
     log_button.pack(side=LEFT)
+
+    configure_button.pack(side=RIGHT)
+    survive_entry.pack(side=RIGHT)
+    survive_label.pack(side=RIGHT)
+    birth_entry.pack(side=RIGHT)
+    birth_label.pack(side=RIGHT)
 
     f_map.pack(fill=X, side=BOTTOM)
     f_instruments.pack(fill=X, side=TOP)

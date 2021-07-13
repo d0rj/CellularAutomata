@@ -49,7 +49,7 @@ Examples of serialized maps you can see [there](https://github.com/d0rj/Cellular
 
 ## Roadmap
 
-- [ ] Quick change of the rules for the transition of the machine;
+- [x] Quick change of the rules for the transition of the machine;
 - [ ] Prettier interface 😆;
 - [x] Adding many known configurations;
 - [ ] One-dimensional mode;

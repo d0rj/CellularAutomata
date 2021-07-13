@@ -83,3 +83,7 @@ class CellMap:
 
     def randomize(self):
         self.map = np.random.randint(2, size=(self.cells_count, self.cells_count)).astype(int)
+
+
+    def set_rule(self, new_rule: dict):
+        self.rule = new_rule
