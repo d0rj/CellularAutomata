@@ -1,5 +1,6 @@
 from tkinter import Tk, Frame, PhotoImage, Button, Menu, X, LEFT, BOTTOM, TOP
 from tkinter.filedialog import asksaveasfilename, askopenfilename
+from os import listdir
 
 from cell_map import CellMap
 from cell_map_widget import CellMapWidget
@@ -101,12 +102,14 @@ def main():
     )
 
     map_config_menu = Menu(main_menu)
-    map_config_menu.add_command(
-        label='Planner gun',
-        command=(
-            lambda: cell_map_widget.on_set_config(deserialize_cellmap('map_configs/planner.cfg'))
+    for filename in listdir('./map_configs/'):
+        if filename.endswith('.cfg'):
+            map_config_menu.add_command(
+                label=filename[:-4].capitalize(),
+                command=(
+                    lambda: cell_map_widget.on_set_config(deserialize_cellmap(f'./map_configs/{filename}'))
+                    )
             )
-    )
 
     main_menu.add_cascade(label='File', menu=file_menu)
     main_menu.add_cascade(label='Map Config', menu=map_config_menu)
