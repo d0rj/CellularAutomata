@@ -80,7 +80,7 @@ def main():
 
     file_menu = Menu(main_menu)
     file_menu.add_command(
-        label='Open',
+        label='Open..',
         command=(
             lambda:
             cell_map_widget.on_set_config(
@@ -91,7 +91,7 @@ def main():
         )
     )
     file_menu.add_command(
-        label='Create',
+        label='Save...',
         command=(
             lambda:
             serialize_cellmap(
@@ -101,14 +101,15 @@ def main():
         )
     )
 
+    def set_config_handler_build(arg):
+        return lambda: cell_map_widget.on_set_config(deserialize_cellmap(f'./map_configs/{arg}'))
+
     map_config_menu = Menu(main_menu)
     for filename in listdir('./map_configs/'):
         if filename.endswith('.cfg'):
             map_config_menu.add_command(
                 label=filename[:-4].capitalize(),
-                command=(
-                    lambda: cell_map_widget.on_set_config(deserialize_cellmap(f'./map_configs/{filename}'))
-                    )
+                command=set_config_handler_build(filename)
             )
 
     main_menu.add_cascade(label='File', menu=file_menu)
