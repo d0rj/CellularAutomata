@@ -20,7 +20,7 @@ def main():
 
     root = Tk()
     root.title('Cellular automata (Game of life version)')
-    root.geometry('{}x{}'.format(pixels_width, (pixels_width) + INSTRUMENTS_SIZE))
+    root.geometry(f'{pixels_width}x{pixels_width + INSTRUMENTS_SIZE}')
 
     f_map = Frame(
         root,
