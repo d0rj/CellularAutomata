@@ -36,10 +36,21 @@ python main.py
 * *Click on the field* - on/off a cell.
 * Log - on/off logging. Logs are saved to the 'default' folder (name editing is not supported yet) and are signed with their serial number relative to the beginning of the recording.
 
+## Serialization
+
+The map configuration is saved according to the following template:
+
+```python
+x y # width and height of map in cells
+0 213 4 0 ... 0 0 # Each line of the field is encoded with a binary number, these numbers are written sequentially into one line. There should be y numbers in total
+```
+
+Examples of serialized maps you can see [there](https://github.com/d0rj/CellularAutomata/tree/master/map_configs).
+
 ## Roadmap
 
-* Quick change of the rules for the transition of the machine;
-* Prettier interface 😆;
-* Adding many known configurations;
-* One-dimensional mode;
-* More convenient work with logs.
+- [ ] Quick change of the rules for the transition of the machine;
+- [ ] Prettier interface 😆;
+- [x] Adding many known configurations;
+- [ ] One-dimensional mode;
+- [ ] More convenient work with logs.
