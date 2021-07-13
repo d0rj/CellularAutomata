@@ -35,6 +35,7 @@ python main.py
 * Simulate - calculate the state of the machine before the stop signal;
 * *Click on the field* - on/off a cell.
 * Log - on/off logging. Logs are saved to the 'default' folder (name editing is not supported yet) and are signed with their serial number relative to the beginning of the recording.
+* Configure - change birth/survive rules for automata to entered.
 
 ## Serialization
 
