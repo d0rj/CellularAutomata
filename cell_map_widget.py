@@ -8,6 +8,7 @@ from logger import Logger
 class CellMapWidget(Frame):
 
     def __init__(self, master, cell_size: int, step_interval: int, cell_map: CellMap):
+        super().__init__()
         self.cell_size = cell_size
         self.step_interval = step_interval
         self.cell_map = cell_map
