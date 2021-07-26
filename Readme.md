@@ -12,8 +12,8 @@ The field is an unfolding of the torus.
 
 ## Environment
 
-  - numpy
-  - tkinter
+- numpy
+- tkinter
 
 ## Example of work
 
@@ -33,13 +33,13 @@ python main.py
 
 ### Control
 
-  - Step - calculate one iteration of the machine;
-  - Clear - clear the field;
-  - Random - fill in the field randomly;
-  - Simulate - calculate the state of the machine before the stop signal;
-  - *Click on the field* - on/off a cell.
-  - Log - on/off logging. Logs are saved to the 'default' folder (name editing is not supported yet) and are signed with their serial number relative to the beginning of the recording.
-  - Configure - change birth/survive rules for automata to entered.
+- Step - calculate one iteration of the machine;
+- Clear - clear the field;
+- Random - fill in the field randomly;
+- Simulate - calculate the state of the machine before the stop signal;
+- *Click on the field* - on/off a cell.
+- Log - on/off logging. Logs are saved to the 'default' folder (name editing is not supported yet) and are signed withtheir serial number relative to the beginning of the recording.
+- Configure - change birth/survive rules for automata to entered.
 
 ## Serialization
 
@@ -54,8 +54,8 @@ Examples of serialized maps you can see [there](https://github.com/d0rj/Cellular
 
 ## Roadmap
 
-  - [x] Quick change of the rules for the transition of the machine;
-  - [ ] Prettier interface 😆;
-  - [x] Adding many known configurations;
-  - [ ] One-dimensional mode;
-  - [ ] More convenient work with logs.
+- [x] Quick change of the rules for the transition of the machine;
+- [ ] Prettier interface 😆;
+- [x] Adding many known configurations;
+- [ ] One-dimensional mode;
+- [ ] More convenient work with logs.

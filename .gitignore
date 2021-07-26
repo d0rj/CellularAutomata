@@ -112,6 +112,8 @@ ENV/
 env.bak/
 venv.bak/
 
+cell_env/
+
 # Spyder project settings
 .spyderproject
 .spyproject
