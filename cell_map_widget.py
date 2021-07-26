@@ -27,11 +27,9 @@ class CellMapWidget(Frame):
 
         self.draw()
 
-
     def draw(self):
         self.draw_grid()
         self.draw_map()
-
 
     def _on_click(self, event):
         x, y = event.x // self.cell_size, event.y // self.cell_size
@@ -39,7 +37,6 @@ class CellMapWidget(Frame):
 
         self.canvas.delete('all')
         self.draw()
-
 
     def draw_cell(self, x: int, y: int):
         cell_size = self.cell_size
@@ -52,7 +49,6 @@ class CellMapWidget(Frame):
             fill='black'
             )
 
-
     def draw_grid(self):
         draw_line_func = self.canvas.create_line
         cells_count = self.cell_map.cells_count
@@ -64,7 +60,6 @@ class CellMapWidget(Frame):
         for i in range(0, cells_count * cell_size, cell_size):
             draw_line_func(i, 0, i, cells_count * cell_size)
 
-
     def draw_map(self):
         draw_cell_func = self.draw_cell
         cells_count = self.cell_map.cells_count
@@ -74,7 +69,6 @@ class CellMapWidget(Frame):
             for j in range(cells_count):
                 if map_[i, j] == 1:
                     draw_cell_func(i, j)
-
 
     def step(self):
         self.canvas.delete('all')
@@ -86,12 +80,10 @@ class CellMapWidget(Frame):
 
         self.draw()
 
-
     def simulate_loop(self):
         if self.simulating:
             self.step()
             self.canvas.after(self.step_interval, self.simulate_loop)
-
 
     def on_simulate(self, indicator):
         self.simulating = not self.simulating
@@ -103,7 +95,6 @@ class CellMapWidget(Frame):
             else:
                 indicator.configure(bg='white')
 
-
     def on_randomize(self):
         self.canvas.delete('all')
 
@@ -113,7 +104,6 @@ class CellMapWidget(Frame):
             self.logger.log(self.cell_map.map)
 
         self.draw()
-
 
     def on_clear(self):
         self.canvas.delete('all')
@@ -125,7 +115,6 @@ class CellMapWidget(Frame):
 
         self.draw()
 
-
     def on_set_config(self, new_map: np.ndarray):
         self.canvas.delete('all')
 
@@ -136,17 +125,14 @@ class CellMapWidget(Frame):
 
         self.draw()
 
-
     def on_start_log(self, session_name: str = 'default'):
         self.logging = True
         self.logger = Logger()
         self.logger.start_session(self.cell_map.map, session_name)
 
-
     def on_end_log(self):
         self.logger.end_session()
         self.logging = False
-
 
     def on_log(self, indicator, session_name: str='default'):
         if not self.logging:

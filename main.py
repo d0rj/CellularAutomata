@@ -1,4 +1,5 @@
-from tkinter import Tk, Frame, PhotoImage, Button, Menu, Entry, Label, X, LEFT, BOTTOM, TOP
+from tkinter import Tk, Frame, PhotoImage, Button, Menu, Entry, Label,\
+    X, LEFT, BOTTOM, TOP
 from tkinter.constants import RIGHT
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from os import listdir
@@ -108,7 +109,11 @@ def main():
             lambda:
             cell_map_widget.on_set_config(
                 deserialize_cellmap(
-                    askopenfilename(initialdir='/', title='Select config', filetypes=FILETYPES)
+                    askopenfilename(
+                        initialdir='/',
+                        title='Select config',
+                        filetypes=FILETYPES
+                        )
                     )
                 )
         )
@@ -119,13 +124,18 @@ def main():
             lambda:
             serialize_cellmap(
                 cell_map_widget.cell_map.map,
-                asksaveasfilename(filetypes=FILETYPES, defaultextension='.cfg') or './default.cfg'
+                asksaveasfilename(
+                    filetypes=FILETYPES,
+                    defaultextension='.cfg'
+                ) or './default.cfg'
             )
         )
     )
 
     def set_config_handler_build(arg):
-        return lambda: cell_map_widget.on_set_config(deserialize_cellmap(f'./map_configs/{arg}'))
+        return lambda: cell_map_widget.on_set_config(
+            deserialize_cellmap(f'./map_configs/{arg}')
+        )
 
     map_config_menu = Menu(main_menu)
     for filename in listdir('./map_configs/'):

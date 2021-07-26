@@ -7,13 +7,11 @@ import numpy as np
 class CellMap:
     __slots__ = ('cells_count', 'rule', 'map', 'next_map')
 
-
     def __init__(self, cells_count: int, rule: Dict[str, List[int]]):
         self.cells_count = cells_count
         self.map = np.zeros((cells_count, cells_count)).astype(int)
         self.next_map = deepcopy(self.map)
         self.rule = rule
-
 
     def _get_point_neighbors(self, x: int, y: int) -> np.ndarray:
         neighbors = np.zeros((8, 8)).astype(int)
@@ -42,7 +40,6 @@ class CellMap:
 
         return neighbors
 
-
     def _neighbors_count(self, x: int, y: int) -> int:
         count = 0
         neighbors = self._get_point_neighbors(x, y)
@@ -55,7 +52,6 @@ class CellMap:
                 count += 1
 
         return count
-
 
     def step(self):
         count_func = self._neighbors_count
@@ -76,14 +72,14 @@ class CellMap:
         self.map = self.next_map.copy()
         self.next_map.fill(0)
 
-
     def clear(self):
         self.map.fill(0)
 
-
     def randomize(self):
-        self.map = np.random.randint(2, size=(self.cells_count, self.cells_count)).astype(int)
-
+        self.map = np.random.randint(
+            2,
+            size=(self.cells_count, self.cells_count)
+        ).astype(int)
 
     def set_rule(self, new_rule: dict):
         self.rule = new_rule

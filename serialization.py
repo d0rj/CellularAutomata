@@ -3,7 +3,9 @@ import numpy as np
 from cell_map import CellMap
 
 
-def serialize_cellmap_only(cellmap: np.ndarray, width: int, height: int, file_name: str):
+def serialize_cellmap_only(
+        cellmap: np.ndarray, width: int, height: int, file_name: str
+        ) -> None:
     with open(file_name, 'a+') as file:
         file.write('{0} {1}\n'.format(width, height))
         for y in range(height):
